@@ -1,0 +1,59 @@
+def addBinary(self, a, b):
+      """
+      :type a: str
+      :type b: str
+      :rtype: str
+      """
+      return_list = []
+      return_string = ""
+      
+      # Turn Binary A into a list so we can modify it
+      for index in range(len(a) - 1, -1, -1):
+          return_list.append(a[index])
+          
+      old_b = b
+      b = ""
+      # Flip Binary B
+      for index in range(len(old_b) - 1, -1, -1):
+          b = b + old_b[index]
+          
+      # If B is longer than A, then add more digits to A so we don't get an "out of index" error
+      if len(return_list) < len(b):
+          for i in range(len(b) - len(return_list)):
+              return_list.append("0")
+      
+      # Add the binary strings -- Sort of like manual addition
+      # Go through the list of 1's and 0's in b
+      for index in range(len(b)):
+          
+          # If there is a "1" in B, have it replace the corresponding "0" in the list
+          if b[index] == "1":
+              index_shift = 0
+          
+              # If the "1" replaces another "1", then set that value in the list to be "0" and carry the "1"
+              # Repeat until it lands on a "0"
+              while return_list[index + index_shift] != "0":
+                  return_list[index + index_shift] = "0"
+                  index_shift += 1
+                  
+                  # If the list needs more space to carry the "1", add another 0.
+                  if index + index_shift >= len(return_list):
+                      return_list.append("0")
+                      break
+              return_list[index + index_shift] = "1"
+          
+      # Remove excess 0's from the end of the list by iterating through until we hit a "1"
+      index = len(return_list) - 1
+      
+      while (len(return_list) > 1):
+          if str(return_list[index]) == "0":
+              return_list.remove(return_list[index])
+              index -= 1
+          else:
+              break
+      
+      # Turn the list into a string
+      for index in range(len(return_list) - 1, -1, -1):
+          return_string = return_string + str(return_list[index])
+              
+      return return_string
